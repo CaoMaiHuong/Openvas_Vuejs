@@ -35,7 +35,7 @@ export default {
       // localStorage.removeItem('id')
       axios({
         method: 'get',
-        url: 'http://112.137.129.225:9009/logout'
+        url: 'http://112.137.129.225:8088/logout'
       }).then(response => {
         localStorage.removeItem('name')
         this.$router.push('/login')

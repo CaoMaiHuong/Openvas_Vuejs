@@ -105,7 +105,7 @@
       updateTarget() {
         axios({
           method: 'put',
-          url: 'http://112.137.129.225:9009/targets',
+          url: 'http://112.137.129.225:8088/targets',
           data: {
             target_id: this.targetData['-id'],
             name: this.targetData.name,

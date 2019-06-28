@@ -39,11 +39,13 @@
                     <tbody>
                       <tr class="odd" role="row" v-for="(task, index) in tasks" :key="index">
                         <!-- <td class="sorting_1">{{user.ID}}</td> -->
-                        <td><router-link :to="{ name: 'Chi tiết tác vụ', params: {id: task['-id']}}">{{task.name}}</router-link></td>
+                        <td><router-link :to="{ name: 'Chi tiết tác vụ', params: {id: task['-id']}}">{{task.name}}</router-link>
+                        <div v-if="task.comment !== ''">({{task.comment}})</div>
+                        </td>
                         <td>{{task.status}}</td>
                         <td><router-link :to="{ name: 'Danh sách báo cáo', params: {id: task['-id']}}">{{task.report_count['#content']}}</router-link></td>
-                        <!-- <td>{{task.last_report.report.timestamp}}</td> -->
-                        <!-- <td>{{task.last_report.report.severity}}</td> -->
+                        <td v-if="task.last_report"><router-link :to="{ name: 'Báo cáo', params: {id: task.last_report.report['-id'], date:task.last_report.report.timestamp}}">{{task.last_report ? task.last_report.report.timestamp : ""}}</router-link></td>
+                        <td>{{task.last_report ? task.last_report.report.severity : ""}}</td>
                         <td>
                           <updatetask v-show="isModalVisible" @close="closeModal" :taskData="modalData" />                    
                           <a data-toggle="modal" data-target="#updateTask" @click="showUpdateModal(task)" style="margin-right: 20px"><i class="fa fa-pencil" style="margin-right: 5px"></i>{{ $t('action.editMsg') }}</a>
@@ -103,7 +105,7 @@ export default {
   },
   methods: {
     getTask() {
-      axios.get('http://112.137.129.225:9009/tasks')
+      axios.get('http://112.137.129.225:8088/tasks')
       .then(response => {
         // let $this = this
         this.tasks = response.data.get_tasks_response.task
@@ -122,7 +124,7 @@ export default {
     },
     deleteTask(id, index) {
       if (confirm('Bạn có chắc chắn muốn xóa?')) {
-        axios.delete('http://112.137.129.225:9009/tasks/' + id + '/false')
+        axios.delete('http://112.137.129.225:8088/tasks/' + id + '/false')
         .then(response => {
           this.tasks.splice(index, 1)
         })

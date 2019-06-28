@@ -19,10 +19,10 @@
               <h3>Host</h3>
               <span> {{ $t('targets.includedMsg') }}:  {{detail.hosts}}<br></span>
               <span> {{ $t('targets.max_hosts') }}:  {{detail.max_hosts}}<br></span>
-              <span v-if='detail.reverse_lookup_only === "0"'> {{ $t('targets.rlOnlyMsg') }}: No<br></span>
-              <span v-else> {{ $t('targets.rlOnlyMsg') }}: Yes<br></span>
-              <span v-if='detail.reverse_lookup_unify === "0"'> {{ $t('targets.rlUnifyMsg') }}: No<br></span>
-              <span v-else> {{ $t('targets.rlUnifyMsg') }}: Yes<br></span>
+              <span v-if='detail.reverse_lookup_only === "0"'> {{ $t('targets.rlOnlyMsg') }}: Không<br></span>
+              <span v-else> {{ $t('targets.rlOnlyMsg') }}: Có<br></span>
+              <span v-if='detail.reverse_lookup_unify === "0"'> {{ $t('targets.rlUnifyMsg') }}: Không<br></span>
+              <span v-else> {{ $t('targets.rlUnifyMsg') }}: Có<br></span>
               <span> {{ $t('targets.aliveTestMsg') }}: {{detail.alive_tests}}<br></span>
               <span> {{ $t('targets.portMsg') }}: {{detail.port_list.name}}</span>
             </div>
@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     getTarget(id) {
-      axios.get('http://112.137.129.225:9009/target/' + id)
+      axios.get('http://112.137.129.225:8088/target/' + id)
       .then(response => {
         this.detail = response.data.get_targets_response.target
       })

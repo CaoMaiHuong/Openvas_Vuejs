@@ -51,19 +51,18 @@
                         <td class="sorting_1" rowspan = "2">
                           <router-link :to="{ name: 'Chi tiết CVE', params: {name: c['-id'] }}">{{c.name}}</router-link>
                         </td>
-                        <!-- <div>{{c[index].cve.complexity}}</div> -->
-                        <!-- <td>{{c.cve.vector}}</td>
-                        <td>{{c.cve.complexity}}</td>
-                        <td>{{c.cve.authentication}}</td>
-                        <td>{{c.cve.confidentiality_impact}}</td>
-                        <td>{{c.cve.integrity_impact}}</td>
-                        <td>{{c.cve.availability_impact}}</td>
-                        <td>{{  c.creation_time}}</td>
-                        <td>{{c.cve.cvss}}</td> -->
+                         <td>{{c.cve ? c.cve.vector : "N/A"}}</td>
+                         <td>{{c.cve ? c.cve.complexity : "N/A"}}</td>
+                        <td>{{c.cve ? c.cve.authentication : "N/A"}}</td>
+                        <td>{{c.cve ? c.cve.confidentiality_impact : "N/A"}}</td>
+                        <td>{{c.cve ? c.cve.integrity_impact : "N/A"}}</td>
+                        <td>{{c.cve ? c.cve.availability_impact : "N/A"}}</td>
+                        <td>{{c.creation_time}}</td>
+                        <td>{{c.cve ? c.cve.cvss : "N/A"}}</td>
                       </tr>
-                      <!-- <tr class="cve-description" role="row" >
-                        <td colspan = "8">{{c.cve.description}}</td>
-                      </tr> -->
+                      <tr class="cve-description" role="row" >
+                        <td colspan = "8">{{c.cve ? c.cve.description : "N/A"}}</td>
+                      </tr>
                     </tbody>
                     
                     <tfoot>
@@ -120,11 +119,9 @@ export default {
 
   methods: {
     getCve() {
-      axios.get('http://112.137.129.225:9009/infos?type_info=cve')
+      axios.get('http://112.137.129.225:8088/infos?type_info=cve')
       .then(response => {
-        // let $this = this
         this.cves = response.data.get_info_response.info
-        // $this.makePagination(response.data)
       })
     },
     searchCves(page) {

@@ -44,13 +44,13 @@
                       <tr class="odd" role="row" v-for="(nvt,index) in nvts" :key="index">
                         <td class="sorting_1">
                           <router-link :to="{ name:'Chi tiết NVT', params: {id: nvt['-id'] }}">{{nvt.name}}</router-link></td>
-                        <td></td>
-                        <!-- <td>{{nvt.nvt.family}}</td> -->
+                        <td>{{nvt.nvt ? nvt.nvt.family : "N/A"}}</td>
                         <td>{{nvt.creation_time}}</td>
                         <td>{{nvt.modification_time}}</td>
-                        <td><router-link class="cve" v-for="cve in nvt.cve" :key="cve" :to="{ name: 'Chi tiết CVE', params: {name: cve }}">{{nvt.nvt.cve_id}}&nbsp;&nbsp;&nbsp;</router-link></td>
-                        <!-- <td>{{nvt.nvt.cvss_base}}</td>
-                        <td>{{nvt.nvt.qod.value}}</td> -->
+                        <td v-if="nvt.nvt && nvt.nvt.cve_id==='NOCVE'">NOCVE</td>
+                        <td v-if="nvt.nvt && nvt.nvt.cve_id!=='NOCVE'"><router-link class="cve" v-for="(cve,index) in nvt.nvt.cve_id.split(', ')" :key="index" :to="{ name: 'Chi tiết CVE', params: {name: cve }}">{{cve}}&nbsp;&nbsp;&nbsp;</router-link></td>
+                        <td>{{nvt.nvt ? nvt.nvt.cvss_base : "N/A"}}</td>
+                        <td>{{nvt.nvt ? nvt.nvt.qod.value : "N/A"}}</td>
                       </tr>
                     </tbody>
                     
@@ -107,11 +107,10 @@ export default {
   },
   methods: {
     getNvt() {
-      axios.get('http://112.137.129.225:9009/infos?type_info=nvt')
+      axios.get('http://112.137.129.225:8088/infos?type_info=nvt')
       .then(response => {
         // let $this = this
         this.nvts = response.data.get_info_response.info
-        console.log(this.nvts)
         // $this.makePagination(response.data)
       })
     },

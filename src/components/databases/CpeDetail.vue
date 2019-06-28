@@ -1,7 +1,7 @@
 <template>
     <div class="row">
       <div class="col-md-12">
-        <div class="box"  v-for="dt in detail" :key="dt.id">
+        <div class="box">
           <div class="box-header">
             <div class="cve-list">
                 <h4><router-link :to="{name: 'Cpes'}"><i class="fa fa-list"><span  style="margin-left:5px">{{ $t('cpes.cpeListMsg') }}</span></i></router-link></h4>
@@ -9,20 +9,20 @@
           </div>
           <div class="box-body">
             <div class="cpe-infomation">
-              <h3>{{dt.name}}</h3>
-                <span>ID: {{dt.name}}</span><br>
-                <span v-if='dt.title.Valid'>{{ $t('cpes.titleMsg') }}: {{dt.title.String}} <br></span>
-                <span v-if='dt.nvd_id.Valid'>NVD ID: {{dt.nvd_id.Int64}}<br></span>
-                <span>{{ $t('createMsg') }}: {{dt.created}}</span> <br>
-                <span>Last updated: {{dt.modified}}</span><br>
-                <span v-if='dt.status.Valid'>{{ $t('statusMsg') }}: {{dt.status.String}} <br></span>
-                <span>{{ $t('severityMsg') }}: {{dt.severity.String}}</span>
+              <h3>{{detail[0].name}}</h3>
+                <span>ID: {{detail[0]['-id']}}</span><br>
+                <span v-if='detail[0].cpe.title'>{{ $t('cpes.titleMsg') }}: {{detail[0].cpe.title}} <br></span>
+                <span v-if='detail[0].cpe.nvd_id!="(null)"'>NVD ID: {{detail[0].cpe.nvd_id}}<br></span>
+                <span>{{ $t('createMsg') }}: {{detail[0].creation_time}}</span> <br>
+                <span>Last updated: {{detail[0].update_time}}</span><br>
+                <span v-if='detail[0].cpe.status!=""'>{{ $t('statusMsg') }}: {{detail[0].cpe.status}} <br></span>
+                <span v-if='detail[0].cpe.max_cvss!="(null)"'>{{ $t('severityMsg') }}: {{detail[0].cpe.max_cvss}}</span>
             </div>
             <div class="cpe">
               
               <div>
                 <h3>{{ $t('cpes.reportVul') }}</h3>
-                <div v-if='dt.reportedVulnerabilites != null'>
+                <div v-if='reportedVulnerabilites != null'>
                   <div class="col-sm-12 table-responsive">
                     <table aria-describedby="example1_info" role="grid" id="example1" class="table table-bordered table-striped dataTable">
                       <thead>
@@ -68,9 +68,10 @@ export default {
   },
   methods: {
     getCpe(id) {
-      axios.get('http://112.137.129.225:9009/infos/cpe/' + id)
+      axios.get('http://112.137.129.225:8088/infos?type_info=CPE&name=' + id)
       .then(response => {
-        this.detail = response.data.info
+        this.detail = response.data.get_info_response.info
+        // this.cpeDetail = this.detail.cpe;
       })
     }
   }

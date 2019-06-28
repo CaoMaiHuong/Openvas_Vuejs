@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     getTarget(id) {
-      axios.get('http://112.137.129.225:9009/tasks/' + id)
+      axios.get('http://112.137.129.225:8088/tasks/' + id)
       .then(response => {
         this.detail = response.data.get_tasks_response.task
       })

@@ -34,22 +34,23 @@
                   <table aria-describedby="example1_info" role="grid" id="example1" class="table table-bordered table-striped dataTable">
                     <thead>
                       <tr role="row">
-                        <th style="width: 30%" aria-sort="ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">{{ $t('cpes.nameMsg') }}</th>
+                        <th style="width: 20%" aria-sort="ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">{{ $t('cpes.nameMsg') }}</th>
                         <th style="width: 23%" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">{{ $t('cpes.titleMsg') }}</th>
-                        <th style="width: 27%" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">{{ $t('modifyMsg') }}</th>
-                        <th style="width: 10%" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Cves</th>
-                        <th style="width: 10%" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" >{{ $t('severityMsg') }}</th>
+                        <th style="width: 20%" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">{{ $t('modifyMsg') }}</th>
+                        <th style="width: 20%" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Cves</th>
+                        <th style="width: 20%" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" >{{ $t('severityMsg') }}</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr class="odd" role="row" v-for="(c,index) in cpes" :key="index">
+                        <!-- <div>{{c}}</div> -->
                         <td class="sorting_1">
-                          <router-link :to="{ name: 'Chi tiết CPE', params: {id: c['-id'] }}">{{c.name}}</router-link></td>
-                        <!-- <td>{{c.cpe.title}}</td> -->
-                        <td></td>
+                          <router-link :to="{ name: 'Chi tiết CPE', params: {id: c.name}}">{{c.name}}</router-link></td>
+                        <td>{{c.cpe ? c.cpe.title: "N/A"}}</td>
                         <td>{{c.modification_time}}</td>
-                        <!-- <td>{{c.cpe.cve_refs}}</td> -->
-                        <!-- <td>{{c.cpe.max_cvss}}</td> -->
+                        <td>{{c.cpe ? c.cpe.cve_refs: "N/A"}}</td>
+                        <td v-if="c.cpe && c.cpe.max_cvss && c.cpe.max_cvss != '(null)'">{{c.cpe ? c.cpe.max_cvss: "N/A"}}</td>
+                        <td v-else>N/A</td>
                       </tr>
                     </tbody>
                     <tfoot>
@@ -101,13 +102,13 @@ export default {
     }
   },
   mounted() {
-    this.getCpes(this.page)
+    this.getCpes()
   },
   methods: {
-    getCpes(page) {
+    getCpes() {
       axios({
         method: 'get',
-        url: 'http://112.137.129.225:9009/infos?type_info=cpe'
+        url: 'http://112.137.129.225:8088/infos?type_info=cpe'
       })
       .then(response => {
         // let $this = this

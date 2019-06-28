@@ -109,7 +109,7 @@ export default {
   },
   methods: {
     getNvt(id) {
-      axios.get('http://112.137.129.225:9009/infos/nvt/' + id)
+      axios.get('http://112.137.129.225:8088/infos/nvt/' + id)
       .then(response => {
         this.detail = response.data.get_info_response.info
         this.tags = response.data.get_info_response.info[0].nvt.tags.split('|')

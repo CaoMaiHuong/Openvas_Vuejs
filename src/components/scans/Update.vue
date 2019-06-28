@@ -173,7 +173,7 @@
     // },
     methods: {
       getTarget() {
-        axios.get('http://112.137.129.225:9009/targets')
+        axios.get('http://112.137.129.225:8088/targets')
         .then(response => {
           this.targets = response.data.get_targets_response.target
         })

@@ -41,7 +41,7 @@ export default {
     login() {
       axios({
         method: 'post',
-        url: 'http://112.137.129.225:9009/login',
+        url: 'http://112.137.129.225:8088/login',
         data: {
           password: this.password,
           name: this.name

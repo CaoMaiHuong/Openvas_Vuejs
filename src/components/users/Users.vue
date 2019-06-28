@@ -33,12 +33,12 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(us, index) in users" :key="index">
-                        <td class="sorting_1">{{us.name}}</td>
-                        <td>{{us.role.name}}</td>
-                        <td v-if="us.hosts['-allow'] === '0'">Allow all</td>
+                      <tr v-for="(us,index) in users" :key="index">
+                        <td>{{us.name}}</td>
+                        <td>{{us.role ? us.role.name: ''}}</td>
+                        <td v-if="us.hosts && us.hosts['-allow'] === '0'">Allow all</td>
                         <td v-else>Deny all</td>
-                        <td>{{us.ifaces['-allow']}}</td>
+                        <td>{{us.ifaces && us.ifaces['-allow']}}</td>
                         <td class="action-edit">
                           <updatemodal v-show="isModalVisible" :userData="modalData" />                    
                           <a data-toggle="modal" data-target="#updateModal" @click="showUpdateModal(us)" style="margin-right: 20px"><i class="fa fa-pencil" style="margin-right: 5px"></i>{{ $t('action.editMsg') }}</a>
@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     getUser() {
-      axios.get('http://112.137.129.225:9009/users')
+      axios.get('http://112.137.129.225:8088/users')
       .then(response => {
         this.users = response.data.get_users_response.user
       })
@@ -115,7 +115,7 @@ export default {
     },
     deleteUser: function(id, index) {
       if (confirm('Bạn có chắc chắn muốn xóa?')) {
-        axios.delete('http://112.137.129.225:9009/users', {data: {user_id: id}})
+        axios.delete('http://112.137.129.225:8088/users', {data: {user_id: id}})
         .then(response => {
           this.users.splice(index, 1)
         })

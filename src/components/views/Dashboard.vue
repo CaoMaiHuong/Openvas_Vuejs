@@ -29,7 +29,7 @@
         <info-box color-class="bg-green"
                   title="CPE"
                   text="CPES"
-                  number= cpetotal></info-box>
+                  :number= cpetotal></info-box>
       </div>
       </router-link>
       <!-- /.col -->
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import Chart from 'chart.js'
+// import Chart from 'chart.js'
 import Alert from '../widgets/Alert'
 import InfoBox from '../widgets/InfoBox'
 import ProcessInfoBox from '../widgets/ProcessInfoBox'
@@ -109,7 +109,7 @@ export default {
   },
   beforeCreate() {
     axios
-    .get('http://112.137.129.225:9009/infos?type_info=cpe')
+    .get('http://112.137.129.225:8088/infos?type_info=cpe')
     .then(response => {
       this.cpetotal = response.data.get_info_response.info_count['#content']
       // return this.dashboards
@@ -117,32 +117,32 @@ export default {
   },
   beforeMount() {
     axios
-    .get('http://112.137.129.225:9009/infos?type_info=nvt')
+    .get('http://112.137.129.225:8088/infos?type_info=nvt')
     .then(response => {
       this.nvttotal = response.data.get_info_response.info_count['#content']
-      this.$nextTick(() => {
-        var pieChartCanvas = document.getElementById('nvtbyseverity').getContext('2d')
-        var pieConfig = {
-          type: 'pie',
-          data: {
-            labels: ['Cao', 'Trung bình', 'Thấp', 'Đã lưu vết', 'N/A'],
-            datasets: [{
-              data: [response.data.high.Int64, response.data.medium.Int64, response.data.low.Int64, response.data.log.Int64, response.data.na.Int64],
-              backgroundColor: ['rgb(216, 0, 0)', 'rgb(255, 165, 0)', 'rgb(135, 206, 235)', 'rgb(192, 192, 192)', 'rgb(119, 111, 110)'],
-              hoverBackgroundColor: ['rgb(216, 0, 0)', 'rgb(255, 165, 0)', 'rgb(135, 206, 235)', 'rgb(192, 192, 192)', 'rgb(119, 111, 110)']
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: !this.isMobile,
-            legend: {
-              position: 'bottom',
-              display: true
-            }
-          }
-        }
-        new Chart(pieChartCanvas, pieConfig) // eslint-disable-line no-new
-      })
+      // this.$nextTick(() => {
+      //   var pieChartCanvas = document.getElementById('nvtbyseverity').getContext('2d')
+      //   var pieConfig = {
+      //     type: 'pie',
+      //     data: {
+      //       labels: ['Cao', 'Trung bình', 'Thấp', 'Đã lưu vết', 'N/A'],
+      //       datasets: [{
+      //         data: [response.data.high.Int64, response.data.medium.Int64, response.data.low.Int64, response.data.log.Int64, response.data.na.Int64],
+      //         backgroundColor: ['rgb(216, 0, 0)', 'rgb(255, 165, 0)', 'rgb(135, 206, 235)', 'rgb(192, 192, 192)', 'rgb(119, 111, 110)'],
+      //         hoverBackgroundColor: ['rgb(216, 0, 0)', 'rgb(255, 165, 0)', 'rgb(135, 206, 235)', 'rgb(192, 192, 192)', 'rgb(119, 111, 110)']
+      //       }]
+      //     },
+      //     options: {
+      //       responsive: true,
+      //       maintainAspectRatio: !this.isMobile,
+      //       legend: {
+      //         position: 'bottom',
+      //         display: true
+      //       }
+      //     }
+      //   }
+      //   new Chart(pieChartCanvas, pieConfig) // eslint-disable-line no-new
+      // })
     })
   },
   computed: {
@@ -161,71 +161,33 @@ export default {
   },
   mounted () {
     axios
-    .get('http://112.137.129.225:9009/infos?type_info=cve')
+    .get('http://112.137.129.225:8088/infos?type_info=cve')
     .then(response => {
       this.cvetotal = response.data.get_info_response.info_count['#content']
-      this.$nextTick(() => {
-        // // var ctx = document.getElementById('trafficBar').getContext('2d')
-        // // var config = {
-        // //   type: 'line',
-        // //   data: {
-        // //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        // //     datasets: [{
-        // //       label: 'CoPilot',
-        // //       fill: false,
-        // //       borderColor: '#284184',
-        // //       pointBackgroundColor: '#284184',
-        // //       backgroundColor: 'rgba(0, 0, 0, 0)',
-        // //       data: this.coPilotNumbers
-        // //     }, {
-        // //       label: 'Personal Site',
-        // //       borderColor: '#4BC0C0',
-        // //       pointBackgroundColor: '#4BC0C0',
-        // //       backgroundColor: 'rgba(0, 0, 0, 0)',
-        // //       data: this.personalNumbers
-        // //     }]
-        // //   },
-        // //   options: {
-        // //     responsive: true,
-        // //     maintainAspectRatio: !this.isMobile,
-        // //     legend: {
-        // //       position: 'bottom',
-        // //       display: true
-        // //     },
-        // //     tooltips: {
-        // //       mode: 'label',
-        // //       xPadding: 10,
-        // //       yPadding: 10,
-        // //       bodySpacing: 10
-        // //     }
-        // //   }
-        // // }
+      // this.$nextTick(() => {
+      //   var pieChartCanvas = document.getElementById('cvebyseverity').getContext('2d')
+      //   var pieConfig = {
+      //     type: 'pie',
+      //     data: {
+      //       labels: ['Cao', 'Trung bình', 'Thấp', 'Đã lưu vết', 'N/A'],
+      //       datasets: [{
+      //         data: [response.data.high.Int64, response.data.medium.Int64, response.data.low.Int64, response.data.log.Int64, response.data.na.Int64],
+      //         backgroundColor: ['rgb(216, 0, 0)', 'rgb(255, 165, 0)', 'rgb(135, 206, 235)', 'rgb(192, 192, 192)', 'rgb(119, 111, 110)'],
+      //         hoverBackgroundColor: ['rgb(216, 0, 0)', 'rgb(255, 165, 0)', 'rgb(135, 206, 235)', 'rgb(192, 192, 192)', 'rgb(119, 111, 110)']
+      //       }]
+      //     },
+      //     options: {
+      //       responsive: true,
+      //       maintainAspectRatio: !this.isMobile,
+      //       legend: {
+      //         position: 'bottom',
+      //         display: true
+      //       }
+      //     }
+      //   }
 
-        // new Chart(ctx, config) // eslint-disable-line no-new
-
-        var pieChartCanvas = document.getElementById('cvebyseverity').getContext('2d')
-        var pieConfig = {
-          type: 'pie',
-          data: {
-            labels: ['Cao', 'Trung bình', 'Thấp', 'Đã lưu vết', 'N/A'],
-            datasets: [{
-              data: [response.data.high.Int64, response.data.medium.Int64, response.data.low.Int64, response.data.log.Int64, response.data.na.Int64],
-              backgroundColor: ['rgb(216, 0, 0)', 'rgb(255, 165, 0)', 'rgb(135, 206, 235)', 'rgb(192, 192, 192)', 'rgb(119, 111, 110)'],
-              hoverBackgroundColor: ['rgb(216, 0, 0)', 'rgb(255, 165, 0)', 'rgb(135, 206, 235)', 'rgb(192, 192, 192)', 'rgb(119, 111, 110)']
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: !this.isMobile,
-            legend: {
-              position: 'bottom',
-              display: true
-            }
-          }
-        }
-
-        new Chart(pieChartCanvas, pieConfig) // eslint-disable-line no-new
-      })
+      //   new Chart(pieChartCanvas, pieConfig) // eslint-disable-line no-new
+      // })
     })
   }
 }

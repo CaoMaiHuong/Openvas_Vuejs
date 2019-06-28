@@ -97,7 +97,7 @@
     created() {
       axios({
         method: 'get',
-        url: 'http://112.137.129.225:9009/roles'
+        url: 'http://112.137.129.225:8088/roles'
       })
       .then(response => {
         this.roles = response.data.get_roles_response.role
@@ -118,7 +118,7 @@
           if (res) {
             axios({
               method: 'post',
-              url: 'http://112.137.129.225:9009/users',
+              url: 'http://112.137.129.225:8088/users',
               data: {
                 name: this.name,
                 comment: this.comment,

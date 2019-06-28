@@ -91,7 +91,7 @@ export default {
   },
   methods: {
     getCve(name) {
-      axios.get('http://112.137.129.225:9009/infos/cve/' + name)
+      axios.get('http://112.137.129.225:8088/infos/cve/' + name)
       .then(response => {
         this.detail = response.data.get_info_response.info
         this.refer = response.data.get_info_response.info[0].cve.raw_data.entry.references

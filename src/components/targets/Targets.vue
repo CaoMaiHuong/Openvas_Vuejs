@@ -40,6 +40,7 @@
                         <!-- <td class="sorting_1">{{user.ID}}</td> -->
                         <td>
                           <router-link :to="{ name: 'Chi tiết Target', params: {id: t['-id']}}">{{t.name}}</router-link>
+                          <div v-if="t.comment !== ''">({{t.comment}})</div>
                         </td>
                         <td>{{t.hosts}}</td>
                         <td>{{t.port_list.name}}</td>
@@ -102,7 +103,7 @@ export default {
   },
   methods: {
     getTarget() {
-      axios.get('http://112.137.129.225:9009/targets')
+      axios.get('http://112.137.129.225:8088/targets')
       .then(response => {
         // let $this = this
         this.targets = response.data.get_targets_response.target
@@ -127,7 +128,7 @@ export default {
       if (confirm('Bạn có chắc chắn muốn xóa?')) {
         axios({
           method: 'delete',
-          url: 'http://112.137.129.225:9009/targets/false/' + id
+          url: 'http://112.137.129.225:8088/targets/false/' + id
         })
         .then(response => {
           this.targets.splice(index, 1)

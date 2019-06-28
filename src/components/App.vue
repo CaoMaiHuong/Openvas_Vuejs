@@ -25,7 +25,7 @@
         // this.$store.commit('SET_TOKEN', null)
         axios({
           method: 'get',
-          url: 'http://112.137.129.225:9009/logout'
+          url: 'http://112.137.129.225:8088/logout'
         }).then(response => {
           this.$router.push('/login')
         })

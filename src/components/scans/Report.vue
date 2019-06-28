@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     getReport(id) {
-      axios.get('http://112.137.129.225:9009/results?filter=report_id=' + id)
+      axios.get('http://112.137.129.225:8088/results?filter=report_id=' + id)
       .then(response => {
         // let $this = this
         this.result = response.data.get_results_response.result

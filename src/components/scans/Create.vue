@@ -126,8 +126,8 @@
         alterable: '0',
         auto_delete: 'no',
         auto_delete_data: '5',
-        scanner_id: 1,
-        config_id: 1,
+        scanner_id: '1',
+        config_id: '1',
         network: '',
         hosts_ordering: 'sequential',
         max_checks: '4',
@@ -140,7 +140,7 @@
     },
     methods: {
       getTarget() {
-        axios.get('http://112.137.129.225:9009/targets')
+        axios.get('http://112.137.129.225:8088/targets')
         .then(response => {
           this.targets = response.data.get_targets_response.target
         })
@@ -162,21 +162,21 @@
           if (res) {
             axios({
               method: 'post',
-              url: 'http://112.137.129.225:9009/tasks',
+              url: 'http://112.137.129.225:8088/tasks',
               data: {
                 name: this.name,
                 comment: this.comment,
                 target_id: this.target_id,
                 alert: this.alert,
-                schedule_id: this.schedule_id,
+                schedule_id: '17f9bc4a-a4d0-4e4c-a11a-bade30a2994e',
                 in_assets: this.in_assets,
                 assets_apply_overrides: this.assets_apply_overrides,
                 min_qod: this.min_qod,
                 alterable: this.alterable,
                 auto_delete: this.auto_delete,
                 auto_delete_data: this.auto_delete_data,
-                scanner_id: this.scanner_id,
-                config_id: this.config_id,
+                scanner_id: '08b69003-5fc2-4037-a479-93b440211c73',
+                config_id: '708f25c4-7489-11df-8094-002264764cea',
                 network: this.network,
                 hosts_ordering: this.hosts_ordering,
                 max_checks: this.max_checks,

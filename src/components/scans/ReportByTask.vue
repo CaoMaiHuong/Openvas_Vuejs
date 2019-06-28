@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     getReport(id) {
-      axios.get('http://112.137.129.225:9009/reports?filter=task_id=' + id)
+      axios.get('http://112.137.129.225:8088/reports?filter=task_id=' + id)
       .then(response => {
         // let $this = this
         this.reports = response.data.get_reports_response.report
@@ -104,7 +104,7 @@ export default {
     },
     deleteReport(id, index) {
       if (confirm('Bạn có chắc chắn muốn xóa?')) {
-        axios.delete('http://112.137.129.225:9009/reports/' + id)
+        axios.delete('http://112.137.129.225:8088/reports/' + id)
         .then(response => {
           this.tasks.splice(index, 1)
         })

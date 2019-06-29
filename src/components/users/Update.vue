@@ -7,6 +7,7 @@
             <span class="modal-header__title">
               Tạo mới người dùng
             </span>
+            <div>{{userData}}</div>
             <button type="button" @click="closeForm()" class="close" data-dismiss="modal">&times;</button>  
           </div>
           <div class="modal-body">   
@@ -23,7 +24,7 @@
                 </div>
                 <div class="form-group">
                   <label class="control-label" for='password'>{{ $t('users.passwordMsg') }}</label>
-                  <input v-validate="'required|min:6'" v-model='password' name="password" type="password" class="form-control" ref="password">
+                  <input v-validate="'required|min:6'" v-model="password" name="password" type="password" class="form-control" ref="password">
                   <span v-if="errors.has('password')">{{ errors.first('password') }}</span>
                 </div>
                 <!-- <div class="form-group">
@@ -41,24 +42,24 @@
                   <label class="control-label" for="host_allow">{{ $t('users.hostAccessMsg') }}</label>
                   <div class="contentt">
                   <div class="optionn">
-                  <input type="radio" name="host_allow" v-model="userData.hosts['-allow']" value="0">{{ $t('users.allowanddeny') }}<br>
-                  <input type="radio" name="host_allow" v-model="userData.hosts['-allow']" value="1" style="margin-left: 20px">{{ $t('users.denyandallow') }}<br>
+                    <input type="radio" name="host_allow" v-model="userData.hosts['-allow']" value="0">{{ $t('users.allowanddeny') }}<br>
+                    <input type="radio" name="host_allow" v-model="userData.hosts['-allow']" value="1" style="margin-left: 20px">{{ $t('users.denyandallow') }}<br>
                   </div>
                   <div class="inputcontent">
-                  <input v-model='hosts' type="text" name="hosts" class="form-control">
+                    <input v-model="hosts" type="text" name="hosts" class="form-control">
                   </div>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="control-label" for="iface_allow">{{ $t('users.interface') }}</label>
                   <div class="contentt">
-                  <div class="optionn">
-                  <input type="radio" name="iface_allow" v-model="userData.ifaces['-allow']" value="0">{{ $t('users.allowanddeny') }}<br>
-                  <input type="radio" name="iface_allow" v-model="userData.ifaces['-allow']" value="1" style="margin-left: 20px" >{{ $t('users.denyandallow') }}<br>
-                  </div>
-                  <div class="inputcontent">
-                  <input v-model='ifaces' type="text" name="ifaces" class="form-control">
-                  </div>
+                    <div class="optionn">
+                      <input type="radio" name="iface_allow" v-model="userData.ifaces['-allow']" value="0">{{ $t('users.allowanddeny') }}<br>
+                      <input type="radio" name="iface_allow" v-model="userData.ifaces['-allow']" value="1" style="margin-left: 20px" >{{ $t('users.denyandallow') }}<br>
+                    </div>
+                    <div class="inputcontent">
+                      <input v-model="ifaces" type="text" name="ifaces" class="form-control">
+                    </div>
                   </div>
                 </div>
               </form>
@@ -79,18 +80,18 @@
   import axios from 'axios'
   export default {
     name: 'Tables',
-    props: ['userData'],
+    props: ['userData', 'oldName'],
     data() {
       return {
-        oldName: this.userData.name,
+        // oldName: this.userData.name,
         // comment: '',
-        // password: '',
+        password: '',
         // // comfirm_password: '',
         // role: '',
         // host_allow: '',
-        // hosts: [],
+        hosts: [],
         // iface_allow: '',
-        // ifaces: [],
+        ifaces: [],
         roles: [],
         // message: '',
         messageUpdate: ''
@@ -108,6 +109,21 @@
         // }
       })
     },
+    // // computed: {
+    // //   oldName() {
+    // //     return JSON.parse(JSON.stringify(this.userData.name))
+    // //   }
+    // // },
+    // // watch: { // Here we define the watchers
+    // //   userData: function(newVal, oldVal) { // We add a watcher to the "items" variable, this will be called when items changes
+    // //     this.oldName = oldVal
+    // //   }
+    // },
+    // watch: {
+    //   oldValue: function(newVal, oldVal) {
+    //     console.log(oldVal)
+    //   }
+    // },
     methods: {
       updateUser(id) {
         this.$validator.validateAll().then(res => {
@@ -116,10 +132,10 @@
               method: 'put',
               url: 'http://112.137.129.225:8088/users',
               data: {
-                name: 'cmhuongg',
+                name: this.oldName,
                 new_name: this.userData.name,
                 comment: this.userData.comment,
-                // password: this.userData.password,
+                password: this.password,
                 role_ids: this.userData.role['-id'],
                 hosts_allow: this.userData.hosts['-allow'],
                 hosts: this.hosts,
@@ -128,17 +144,16 @@
               }
             })
             .then(response => {
-              if (response.data === 'Tên người dùng đã tồn tại!') {
-                this.message = response.data
-              }
-              if (response.data === 'Cập nhật thông tin thành công!') {
-                this.messageUpdate = response.data
+              if (response.data.modify_user_response['-status'] === '200') {
+                this.messageUpdate = 'Cập nhật thông tin người dùng thành công!'
                 this.message = ''
                 location.reload()
               }
-              // if (this.message !== 'User already exists') {
-              //   this.$router.push('/users')
-              // }
+            })
+            .catch((error) => {
+              if (error.response.data.Error === 'User with name exists already') {
+                this.messageUpdate = 'Tên người dùng đã tồn tại!'
+              }
             })
           }
         })

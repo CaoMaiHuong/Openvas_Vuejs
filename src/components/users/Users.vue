@@ -33,22 +33,36 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(us,index) in users" :key="index">
-                        <td>{{us.name}}</td>
-                        <td>{{us.role ? us.role.name: ''}}</td>
-                        <td v-if="us.hosts && us.hosts['-allow'] === '0'">Allow all</td>
+                      <template v-if="length > 1">
+                        <tr v-for="(us,index) in users" :key="index">
+                          <td>{{us.name}}</td>
+                          <td>{{us.role ? us.role.name: ''}}</td>
+                          <td v-if="us.hosts && us.hosts['-allow'] === '0'">Allow all</td>
+                          <td v-else>Deny all</td>
+                          <!-- <td>{{us.ifaces ? us.ifaces['-allow']: 'N/A'}}</td> -->
+                          <td v-if="us.ifaces && us.ifaces['-allow'] === '0'">Local</td>
+                          <td class="action-edit">
+                            <updatemodal v-show="isModalVisible" :userData="modalData" :oldName="oldName" />                    
+                            <a data-toggle="modal" data-target="#updateModal" @click="showUpdateModal(us)" style="margin-right: 20px"><i class="fa fa-pencil" style="margin-right: 5px"></i>{{ $t('action.editMsg') }}</a>
+                            <a @click="deleteUser(us['-id'], index)" class="action-delete"> <i class="fa fa-trash" style="margin-right: 5px"></i>{{ $t('action.deleteMsg') }}</a>
+                          </td>
+                        </tr>
+                      </template>
+                      <tr v-else>
+                        <td>{{users.name}}</td>
+                        <td>{{users.role ? users.role.name: ''}}</td>
+                        <td v-if="users.hosts && users.hosts['-allow'] === '0'">Allow all</td>
                         <td v-else>Deny all</td>
-                        <td>{{us.ifaces && us.ifaces['-allow']}}</td>
+                        <td v-if="users.ifaces && users.ifaces['-allow'] === '0'">Local</td>
+                        <!-- <td>{{users.ifaces ? users.ifaces['-allow']: 'N/A'}}</td> -->
                         <td class="action-edit">
-                          <updatemodal v-show="isModalVisible" :userData="modalData" />                    
-                          <a data-toggle="modal" data-target="#updateModal" @click="showUpdateModal(us)" style="margin-right: 20px"><i class="fa fa-pencil" style="margin-right: 5px"></i>{{ $t('action.editMsg') }}</a>
-                          <a @click="deleteUser(us['-id'], index)" class="action-delete"> <i class="fa fa-trash" style="margin-right: 5px"></i>{{ $t('action.deleteMsg') }}</a>
+                          <updatemodal v-show="isModalVisible" :userData="modalData" :oldName="oldName" />                    
+                          <a data-toggle="modal" data-target="#updateModal" @click="showUpdateModal(users)" style="margin-right: 20px"><i class="fa fa-pencil" style="margin-right: 5px"></i>{{ $t('action.editMsg') }}</a>
+                          <a @click="deleteUser(users['-id'], index)" class="action-delete"> <i class="fa fa-trash" style="margin-right: 5px"></i>{{ $t('action.deleteMsg') }}</a>
                         </td>
                       </tr>
                     </tbody>
-                    
                     <tfoot>
-                      
                     </tfoot>
                   </table>
                   <div class="pagination">
@@ -87,6 +101,7 @@ export default {
   data() {
     return {
       users: [],
+      length: 0,
       pagination: [],
       page: 1,
       isModalVisible: false,
@@ -101,6 +116,8 @@ export default {
       axios.get('http://112.137.129.225:8088/users')
       .then(response => {
         this.users = response.data.get_users_response.user
+        this.length = response.data.get_users_response.user.length
+        console.log(Object.keys(this.users).length)
       })
       .catch((error) => {
         console.log(error)
@@ -112,6 +129,7 @@ export default {
     showUpdateModal(item) {
       this.isModalVisible = true
       this.modalData = item
+      this.oldName = item.name
     },
     deleteUser: function(id, index) {
       if (confirm('Bạn có chắc chắn muốn xóa?')) {

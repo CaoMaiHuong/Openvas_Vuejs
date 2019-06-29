@@ -34,7 +34,7 @@
                   <table aria-describedby="example1_info" role="grid" id="example1" class="table table-bordered table-striped dataTable">
                     <thead>
                       <tr role="row">
-                        <th style="width: 12%" aria-sort="ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">{{ $t('cves.nameMsg') }}</th>
+                        <th style="width: 15%" aria-sort="ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">{{ $t('cves.nameMsg') }}</th>
                         <th style="width: 11%" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">{{ $t('cves.vectorMsg') }}</th>
                         <th style="width: 11%" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">{{ $t('cves.complexityMsg') }}</th>
                         <th style="width: 11%" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">{{ $t('cves.authenticationMsg') }}</th>

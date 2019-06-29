@@ -35,7 +35,7 @@
                     <thead>
                       <tr role="row">
                         <th style="width: 20%" aria-sort="ascending" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">{{ $t('cpes.nameMsg') }}</th>
-                        <th style="width: 23%" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">{{ $t('cpes.titleMsg') }}</th>
+                        <th style="width: 20%" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">{{ $t('cpes.titleMsg') }}</th>
                         <th style="width: 20%" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">{{ $t('modifyMsg') }}</th>
                         <th style="width: 20%" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Cves</th>
                         <th style="width: 20%" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" >{{ $t('severityMsg') }}</th>

@@ -10,50 +10,47 @@
             <button type="button" class="close" @click="closeForm()" data-dismiss="modal">&times;</button>  
           </div>
           <div class="modal-body">   
-            <form v-on:submit.prevent="updateTask(taskData.id)" class="update-task" style="padding: 0px">
+            <form v-on:submit.prevent="updateTask()" class="update-task" style="padding: 0px">
               <div class="form-group">
                 <label class="control-label" for="name">{{ $t('tasks.nameMsg') }}</label>
                 <input class="form-control" v-model="taskData.name" name="name" v-validate="'required'" type="text">
                 <span v-if="errors.has('name')">{{ errors.first('name') }}</span>
               </div>
-              <!-- {{taskData}} -->
               <div class="form-group">
                 <label class="control-label" for="comment">{{ $t('commentMsg') }}</label>
                 <input v-model='taskData.comment' class="form-control" name='comment'>
               </div>
               <div class="form-group">
                 <label class="control-label" for='target'>{{ $t('tasks.scanTarget') }}</label>
-                <select onfocus='this.size=10;' onblur='this.size=1;' onchange='this.size=1; this.blur();' class="form-control" v-model="taskData.target">
-                  <option class= "choose-target" v-for="t in targets" :key="t.id" v-bind:value="t.id">{{t.name}}</option>
+                <select class="form-control" v-model="taskData.target['-id']">
+                  <option class= "choose-target" v-for="t in targets" :key="t['-id']" v-bind:value="t['-id']">{{t.name}}</option>
                 </select>
               </div>
               <div class="form-group">
                 <label class="control-label" for="alert">{{ $t('tasks.alert') }}</label>
-                <select class="form-control" v-model="alert">
+                <select class="form-control" disabled>
                   <option value>Please select one</option>
                 </select>
               </div>
               <div class="form-group">
                 <label class="control-label" for='schedule'>{{ $t('tasks.schedule') }}</label>
-                <select class="form-control" v-model="taskData.schedule.String">
-                  <option value>Scan Config Default</option>
-                  <option>ICMP Ping</option>
-                  <option>ARP Ping</option>
+                <select class="form-control" v-model="taskData.schedule['-id']">
+                  <option class= "choose-target" v-for="s in schedules" :key="s['-id']" v-bind:value="s['-id']">{{s.name}}</option>
                 </select>
               </div>
               <div class="form-group result">
                 <label class="control-label" for='in_assets'>{{ $t('tasks.addResult') }}</label>
-                <input type="radio" name="in_assets" v-model="taskData.in_assets" value="yes">Có<br>
-                <input type="radio" name="in_assets" v-model="taskData.in_assets" style="margin-left: 30px;" value="no">Không<br>
+                <input type="radio" name="in_assets" v-model="taskData.preferences.preference[3].value" value="yes">Có<br>
+                <input type="radio" name="in_assets" v-model="taskData.preferences.preference[3].value" style="margin-left: 30px;" value="no">Không<br>
               </div>
               <div class="form-group apply-override">
                 <label class="control-label" for='assets_apply_overrides'>{{ $t('tasks.apply') }}</label>
-                <input type="radio" name="assets_apply_overrides" v-model="taskData.assets_apply_overrides" value="yes">Có<br>
-                <input type="radio" name="assets_apply_overrides" v-model="taskData.assets_apply_overrides" style="margin-left: 30px;"  value="no">Không<br>
+                <input type="radio" name="assets_apply_overrides" v-model="taskData.preferences.preference[4].value" value="yes">Có<br>
+                <input type="radio" name="assets_apply_overrides" v-model="taskData.preferences.preference[4].value" style="margin-left: 30px;"  value="no">Không<br>
               </div>
               <div class="form-group assets_min_qod">
                 <label class="control-label" for='assets_min_qod'>{{ $t('tasks.minQod') }}</label>
-                <input type="number" name="assets_min_qod" v-model="taskData.assets_min_qod"><br>
+                <input type="number" name="assets_min_qod" v-model="taskData.preferences.preference[5].value"><br>
               </div>
               <div class="form-group alterable-task">
                 <label class="control-label" for='alterable'>{{ $t('tasks.alterableTask') }}</label>
@@ -62,25 +59,25 @@
               </div>
               <div class="form-group auto-delete">
                 <label class="control-label" for='auto_delete'>{{ $t('tasks.delReport.name') }}</label><br>
-                <input type="radio" onclick="document.getElementById('dele_data').disabled = true;" name="auto_delete" v-model="taskData.auto_delete" value="no" >{{ $t('tasks.delReport.delReport1') }}<br>
-                <input type="radio" onclick="document.getElementById('dele_data').disabled = false;" name="auto_delete" v-model="taskData.auto_delete" value="keep">{{ $t('tasks.delReport.delReport2') }}&nbsp;
-                <input type="number" id="dele_data" class="delete-data" v-model="taskData.auto_delete_data" disabled>&nbsp;báo cáo mới nhất<br>
+                <input type="radio" onclick="document.getElementById('dele_data').disabled = true;" name="auto_delete" v-model="taskData.preferences.preference[6].value"  v-bind:value="0" >{{ $t('tasks.delReport.delReport1') }}<br>
+                <input type="radio" onclick="document.getElementById('dele_data').disabled = false;" name="auto_delete" v-model="taskData.preferences.preference[6].value"  v-bind:value="1">{{ $t('tasks.delReport.delReport2') }}&nbsp;
+                <input type="number" id="dele_data" class="delete-data" v-model="taskData.preferences.preference[7].value" disabled>&nbsp;báo cáo mới nhất<br>
               </div>
               <div class="form-group">
                 <label class="control-label" for='scanner'>{{ $t('tasks.scanner') }}</label>
-                <select class="form-control" v-model=taskData.scanner>
-                  <option v-for="s in scanners" :key="s.id" v-bind:value=s.id>{{s.name}}</option>
+                <select class="form-control" v-model="taskData.scanner['-id']">
+                  <option v-bind:value="taskData.scanner['-id']">{{taskData.scanner.name}}</option>
                 </select>
               </div>
               <div class="form-group">
                 <label class="control-label" for='config'>{{ $t('tasks.scanConfig') }}</label>
-                <select class="form-control" v-model=taskData.config>
-                  <option v-for="c in configs" :key="c.id" v-bind:value=c.id>{{c.name}}</option>
+                <select class="form-control" v-model="taskData.config['-id']">
+                  <option v-bind:value="taskData.config['-id']">{{taskData.config.name}}</option>
                 </select>
               </div>
               <div class="form-group">
-                <label class="control-label" for='network'>{{ $t('tasks.networkInterface') }}</label>
-                <input type="text" v-model="network" name="network">
+                <label class="control-label network" for='network'>{{ $t('tasks.networkInterface') }}</label>
+                <input type="text" v-model="taskData.preferences.preference[2].value" name="network">
               </div>
               <div class="form-group">
                 <label class="control-label" for='hosts_ordering'>{{ $t('tasks.orderTarget') }}</label>
@@ -92,17 +89,17 @@
               </div>
               <div class="form-group max_checks">
                 <label class="control-label max_checks" for='max_checks'>{{ $t('tasks.maxExecutedNvt') }}</label>
-                <input type="number" v-model="taskData.max_checks" name="max_checks"><br>
+                <input type="number" v-model="taskData.preferences.preference[0].value" name="max_checks"><br>
               </div>
               <div class="form-group max_hosts">
                 <label class="control-label max_hosts" for='max_hosts'>{{ $t('tasks.maxScanned') }}</label>
-                <input type="number" v-model="taskData.max_hosts" name="max_hosts"><br>
+                <input type="number" v-model="taskData.preferences.preference[1].value" name="max_hosts"><br>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button class="btn btn-success" v-if="messageUpdate">{{messageUpdate}}</button>
-            <button type="submit" @click="updateTask(taskData.id)" class="modal-submit btn btn-primary">Lưu</button>
+            <button type="submit" @click="updateTask" class="modal-submit btn btn-primary">Lưu</button>
           </div>
         </div>
       </div>
@@ -115,23 +112,11 @@
   export default {
     name: 'UpdateTask',
     props: ['taskData'],
-//     props: {
-//       taskData: {
-//         type: Array,
-//         default: () => []
-//       }
-//     },
-// //     props: {
-//   arr: {
-//     type: Array,
-//     default: () => ({})
-//   }
-// }
     data() {
       return {
         targets: [],
-        scanners: [],
-        configs: [],
+        schedules: [],
+        // configs: [],
         messageUpdate: ''
         // // name: '',
         // comment: '',
@@ -165,9 +150,9 @@
     created() {
       this.getTarget()
     },
-    // mounted() {
-    //   this.getScanner()
-    // },
+    mounted() {
+      this.getSchedule()
+    },
     // beforeMount() {
     //   this.getConfig()
     // },
@@ -176,6 +161,12 @@
         axios.get('http://112.137.129.225:8088/targets')
         .then(response => {
           this.targets = response.data.get_targets_response.target
+        })
+      },
+      getSchedule() {
+        axios.get('http://112.137.129.225:8088/schedules')
+        .then(response => {
+          this.schedules = response.data.get_schedules_response.schedule
         })
       },
       // beforeCreated() {
@@ -198,35 +189,36 @@
       //     this.configs = response.data
       //   })
       // },
-      updateTask(id) {
+      updateTask() {
         this.$validator.validateAll().then(res => {
           if (res) {
             axios({
               method: 'put',
-              url: 'http://localhost:8081/task/' + id,
+              url: 'http://112.137.129.225:8088/tasks',
               data: {
+                task_id: this.taskData['-id'],
                 name: this.taskData.name,
                 comment: this.taskData.comment,
-                target: this.taskData.target,
-                alert: this.taskData.alert,
-                schedule: this.taskData.schedule,
+                target_id: this.taskData.target['-id'],
+                // alert: this.taskData.alert,
+                schedule_id: this.taskData.schedule['-id'],
                 in_assets: this.taskData.in_assets,
                 assets_apply_overrides: this.taskData.assets_apply_overrides,
-                assets_min_qod: this.taskData.assets_min_qod,
+                min_qod: this.taskData.preferences.preference[5].value,
                 alterable: this.taskData.alterable,
-                auto_delete: this.taskData.auto_delete,
-                auto_delete_data: this.taskData.auto_delete_data,
-                scanner: this.taskData.scanner,
-                config: this.taskData.config,
-                network: this.taskData.network,
+                auto_delete: this.taskData.preferences.preference[6].value,
+                auto_delete_data: this.taskData.preferences.preference[7].value,
+                scanner_id: this.taskData.scanner['-id'],
+                config_id: this.taskData.config['-id'],
+                network: this.taskData.preferences.preference[2].value,
                 hosts_ordering: this.taskData.hosts_ordering,
-                max_checks: this.taskData.max_checks,
-                max_hosts: this.taskData.max_hosts
+                max_checks: this.taskData.preferences.preference[0].value,
+                max_hosts: this.taskData.preferences.preference[1].value
               }
             })
             .then(response => {
-              if (response.data === 'Cập nhật thông tin thành công!') {
-                this.messageUpdate = response.data
+              if (response.data.modify_task_response['-status'] === '200') {
+                this.messageUpdate = 'Cập nhật tác vụ thành công!'
                 location.reload()
               }
             })
@@ -261,10 +253,10 @@
     #updateTask .form-group.auto-delete{
       display: unset;
     }
-  .result, .apply-override, .alterable-task {
+  .result, .apply-override, .alterable-task, .assets_min_qod {
     display: flex;
   }
-  .max_checks, .max_hosts, .result label, .apply-override label, .alterable-task label{
+  .max_checks, .max_hosts, .result label, .apply-override label, .alterable-task label, .network{
     margin-right: 30px;
   }
   .result:last-child, .apply-override input:last-child, .alterable-task input:last-child {

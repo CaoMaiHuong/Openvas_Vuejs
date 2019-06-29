@@ -53,7 +53,7 @@
               <div v-if='vulerableProducts != ""'>
                 <h3>{{ $t('cves.vulProductMsg') }}</h3>
                 <div v-for="(x,index) in vulerableProducts" :key="index">
-                  <router-link :to="{ name: 'Chi tiết CPE', params: {id: x}}">{{x}}<br></router-link>
+                  <router-link :to="{ name: 'Chi tiết CPE', params: {id: x}}">{{x}}</router-link>
                 </div>
               </div>
               <!-- <div v-if='dt.vulnerableProduct == null'>Không</div> -->

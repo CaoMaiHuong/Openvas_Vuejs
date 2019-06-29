@@ -24,18 +24,37 @@
               <span v-else> {{ $t('tasks.alterableTask') }}: Yes<br></span>
               <span> {{ $t('statusMsg') }}: {{detail.status}}<br></span>
             </div>
+            <div class="target">
+              <h3>Target</h3>
+              <span><router-link :to="{ name: 'Chi tiết Target', params: {id: detail.target['-id']}}">{{detail.target.name}}</router-link></span>
+            </div>
+            <div class="scannerr">
+              <h3>Scanner</h3>
+              <span> Name: {{detail.scanner.name}}<br></span>
+              <span> Type: {{detail.name}}<br></span>
+              <span> Scan Config: {{detail.config.name}}<br></span>
+              <span> Order for target hosts: {{detail.hosts_ordering}}<br></span>
+              <span> Network Source Interface: {{detail.preferences.preference[2].value}}<br></span>
+            </div>
             <div class="assets">
               <h3>Assets</h3>
-              <span> Add to Assets: {{detail.name}}<br></span>
-              <span> Apply to Overrides: {{detail.name}}<br></span>
-              <span> Min QoD: {{detail.name}}<br></span>
+              <span v-if="detail.preferences.preference[3].value === 'yes'"> Add to Assets: Có<br></span>
+              <span v-else> Add to Assets: Không<br></span>
+              <span v-if="detail.preferences.preference[4].value === 'yes'"> Apply to Overrides: Có<br></span>
+              <span v-else> Apply to Overrides: Không<br></span>
+              <span> Min QoD: {{detail.preferences.preference[5].value}}<br></span>
             </div>
-            <div class="scan">
+            <div class="schedulee">
+              <h3>Schedule</h3>
+              <span> Name:  {{detail.schedule.name}}<br></span>
+              <span> Next:  {{detail.schedule.next_time}}<br></span>
+            </div>
+            <!-- <div class="scan">
               <h3>Scan</h3>
               <span> Duration of last Scan:  {{detail.name}}<br></span>
               <span> Average Scan duration:  {{detail.name}}<br></span>
-              <span> Auto delete Reports:  {{detail.name}}<br></span>
-            </div>
+              <span> Auto delete Reports:  {{detail.preferences.preference[2].value}}<br></span>
+            </div> -->
           </div>
         </div>
       </div>

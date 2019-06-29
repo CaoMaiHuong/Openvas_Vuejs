@@ -10,7 +10,7 @@
             <button type="button" class="close" @click="closeForm()" data-dismiss="modal">&times;</button>  
           </div>
           <div class="modal-body">   
-            <form v-on:submit.prevent="updateTarget(targetData.id)" class="update-target" style="padding: 0px">
+            <form v-on:submit.prevent="updateTarget()" class="update-target" style="padding: 0px">
               <div class="form-group">
                 <label class="control-label" for="name">{{ $t('targets.nameMsg') }}</label>
                 <input class="form-control" v-model="targetData.name" name="name" v-validate="'required'" type="text">
@@ -60,7 +60,7 @@
           <!-- <div>{{targetData.id}}</div> -->
           <div class="modal-footer">
             <button class="btn btn-success" v-if="messageUpdate">{{messageUpdate}}</button>
-             <button type="submit" @click="updateTarget(targetData.id)" class="btn btn-primary button-save">Lưu</button>
+             <button type="submit" @click="updateTarget()" class="btn btn-primary button-save">Lưu</button>
           </div>
         </div>
       </div>

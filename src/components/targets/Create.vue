@@ -48,13 +48,13 @@
                 </div>
                 <div class="form-group">
                   <label class="control-label" for='rlonly' style="margin-right: 30px;">{{ $t('targets.rlOnlyMsg') }}</label>
-                  <input type="radio" name="reverse-only" v-model="reverse_lookup_only" value = true >Có<br>
-                  <input type="radio" name="reverse-only" v-model="reverse_lookup_only" value = false checked style="margin-left: 30px;">Không<br>
+                  <input type="radio" name="reverse-only" v-model="reverse_lookup_only" v-bind:value="true" >Có<br>
+                  <input type="radio" name="reverse-only" v-model="reverse_lookup_only" v-bind:value="false" style="margin-left: 30px;">Không<br>
                 </div>
                 <div class="form-group">
                   <label class="control-label" for='rlunify' style="margin-right: 30px;">{{ $t('targets.rlUnifyMsg') }}</label>
-                  <input type="radio" name="reverse-unify" v-model="reverse_lookup_unify" value = true >Có<br>
-                  <input type="radio" name="reverse-unify" v-model="reverse_lookup_unify" value = false checked style="margin-left: 30px;">Không<br>
+                  <input type="radio" name="reverse-unify" v-model="reverse_lookup_unify" v-bind:value="true" >Có<br>
+                  <input type="radio" name="reverse-unify" v-model="reverse_lookup_unify" v-bind:value="false" style="margin-left: 30px;">Không<br>
                 </div>
                 
               </form>

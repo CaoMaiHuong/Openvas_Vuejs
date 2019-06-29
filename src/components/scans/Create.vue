@@ -22,7 +22,7 @@
                 <div class="form-group">
                   <label class="control-label" for='target'>{{ $t('tasks.scanTarget') }}</label>
                   <select onfocus='this.size=10;' onblur='this.size=1;' onchange='this.size=1; this.blur();' name="target" class="form-control"  v-model="target">
-                    <option class= "choose-target" v-for="t in targets" :key="t.id" v-bind:value="t.id" >{{t.name}}</option>
+                    <option class= "choose-target" v-for="t in targets" :key="t['-id']" v-bind:value="t['-id']">{{t.name}}</option>
                   </select>
                   <span v-if="errors.has('target')">{{ errors.first('target') }}</span>
                 </div>
@@ -34,8 +34,8 @@
                 </div>
                 <div class="form-group schedule">
                   <label class="control-label" for='schedule'>{{ $t('tasks.schedule') }}</label>
-                  <select class="form-control" v-model="schedule_id">
-                    <option></option>
+                  <select onfocus='this.size=10;' onblur='this.size=1;' onchange='this.size=1; this.blur();' name="target" class="form-control"  v-model="schedule_id">
+                    <option class= "choose-target" v-for="s in schedules" :key="s['-id']" v-bind:value="s['-id']">{{s.name}}</option>
                   </select>
                 </div>
                 <div class="form-group result">
@@ -115,6 +115,7 @@
     data(router) {
       return {
         targets: [],
+        schedules: [],
         name: '',
         comment: '',
         target: '',
@@ -138,11 +139,20 @@
     created() {
       this.getTarget()
     },
+    mounted() {
+      this.getSchedule()
+    },
     methods: {
       getTarget() {
         axios.get('http://112.137.129.225:8088/targets')
         .then(response => {
           this.targets = response.data.get_targets_response.target
+        })
+      },
+      getSchedule() {
+        axios.get('http://112.137.129.225:8088/schedules')
+        .then(response => {
+          this.schedules = response.data.get_schedules_response.schedule
         })
       },
       // getScanner() {
@@ -166,9 +176,9 @@
               data: {
                 name: this.name,
                 comment: this.comment,
-                target_id: this.target_id,
+                target_id: this.target,
                 alert: this.alert,
-                schedule_id: '17f9bc4a-a4d0-4e4c-a11a-bade30a2994e',
+                schedule_id: this.schedule_id,
                 in_assets: this.in_assets,
                 assets_apply_overrides: this.assets_apply_overrides,
                 min_qod: this.min_qod,
@@ -184,8 +194,8 @@
               }
             })
             .then(response => {
-              if (response.data === 'Tạo tác vụ thành công!') {
-                this.messageCreate = response.data
+              if (response.data.create_task_response['-status'] === '201') {
+                this.messageCreate = 'Tạo tác vụ thành công!'
                 location.reload()
               }
             })

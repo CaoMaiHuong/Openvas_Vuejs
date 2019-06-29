@@ -44,7 +44,8 @@
                         </td>
                         <td>{{task.status}}</td>
                         <td><router-link :to="{ name: 'Danh sách báo cáo', params: {id: task['-id']}}">{{task.report_count['#content']}}</router-link></td>
-                        <td v-if="task.last_report"><router-link :to="{ name: 'Báo cáo', params: {id: task.last_report.report['-id'], date:task.last_report.report.timestamp}}">{{task.last_report ? task.last_report.report.timestamp : ""}}</router-link></td>
+                        <td v-if="task.last_report"><router-link :to="{ name: 'Báo cáo', params: {id: task.last_report.report['-id'], date:task.last_report.report.timestamp}}">{{task.last_report ? task.last_report.report.timestamp : "bhjgj"}}</router-link></td>
+                        <td v-else></td>
                         <td>{{task.last_report ? task.last_report.report.severity : ""}}</td>
                         <td>
                           <updatetask v-show="isModalVisible" @close="closeModal" :taskData="modalData" />                    

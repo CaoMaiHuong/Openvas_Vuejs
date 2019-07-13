@@ -79,6 +79,7 @@
 import axios from 'axios'
 import modal from './Create.vue'
 import updatemodal from './Update.vue'
+import config from '../../config'
 // Require needed datatables modules
 require('datatables.net')
 require('datatables.net-bs')
@@ -103,7 +104,7 @@ export default {
   },
   methods: {
     getTarget() {
-      axios.get('http://112.137.129.225:8088/targets')
+      axios.get(config.apiUrl + '/targets')
       .then(response => {
         // let $this = this
         this.targets = response.data.get_targets_response.target
@@ -128,7 +129,7 @@ export default {
       if (confirm('Bạn có chắc chắn muốn xóa?')) {
         axios({
           method: 'delete',
-          url: 'http://112.137.129.225:8088/targets/false/' + id
+          url: config.apiUrl + '/targets/false/' + id
         })
         .then(response => {
           this.targets.splice(index, 1)

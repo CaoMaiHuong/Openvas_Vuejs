@@ -86,6 +86,7 @@
 <script>
 // import $ from 'jquery'
 import axios from 'axios'
+import config from '../../config'
 // Require needed datatables modules
 require('datatables.net')
 require('datatables.net-bs')
@@ -107,7 +108,7 @@ export default {
   },
   methods: {
     getNvt() {
-      axios.get('http://112.137.129.225:8088/infos?type_info=nvt')
+      axios.get(config.apiUrl + '/infos?type_info=nvt')
       .then(response => {
         // let $this = this
         this.nvts = response.data.get_info_response.info
@@ -209,5 +210,10 @@ table.dataTable thead .sorting_desc:after {
 
 .not-found{
   margin-top: 20px;
+}
+table.table-bordered thead th{
+  vertical-align: middle;
+  text-align: center;
+  padding-right: 0px;
 }
 </style>

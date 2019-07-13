@@ -69,6 +69,7 @@
 </template>
 <script>
   import axios from 'axios'
+  import config from '../../config'
   export default {
     name: 'Tables',
     // props: {
@@ -83,13 +84,6 @@
       return {
         port: [],
         messageUpdate: ''
-        // name: '',
-        // comment: '',
-        // hosts: '',
-        // portlist: '',
-        // alivetest: '',
-        // rlonly: '',
-        // rlunify: ''
       }
     },
     // mounted() {
@@ -105,7 +99,7 @@
       updateTarget() {
         axios({
           method: 'put',
-          url: 'http://112.137.129.225:8088/targets',
+          url: config.apiUrl + '/targets',
           data: {
             target_id: this.targetData['-id'],
             name: this.targetData.name,

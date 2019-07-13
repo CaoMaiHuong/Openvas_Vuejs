@@ -25,12 +25,12 @@
               <span v-if="cvss != ''"> {{ $t('cves.baseScoreMsg') }}:  {{cvss.score}}</span>
               <span v-else> {{ $t('cves.baseScoreMsg') }}: N/A</span>
               <div v-if="cvss != ''">
-                <div><span>Access Vector: {{cvss['access-vector']}}</span></div>
-                <div><span>Access Complexity: {{cvss['access-complexity']}}</span></div>
-                <div><span>{{ $t('cves.authenticationMsg') }}: {{cvss.authentication}}</span></div>
-                <div><span>{{ $t('cves.confidentialityImpactMsg') }}: {{cvss['confidentiality-impact']}}</span></div>
-                <div><span>{{ $t('cves.integrityImpactMsg') }}: {{cvss['integrity-impact']}}</span></div>
-                <div><span>{{ $t('cves.availabilityImpactMsg') }}: {{cvss['availability-impact']}}</span></div>
+                <div><span>Access Vector: {{cvss['access-vector']['#content']}}</span></div>
+                <div><span>Access Complexity: {{cvss['access-complexity']['#content']}}</span></div>
+                <div><span>{{ $t('cves.authenticationMsg') }}: {{cvss.authentication['#content']}}</span></div>
+                <div><span>{{ $t('cves.confidentialityImpactMsg') }}: {{cvss['confidentiality-impact']['#content']}}</span></div>
+                <div><span>{{ $t('cves.integrityImpactMsg') }}: {{cvss['integrity-impact']['#content']}}</span></div>
+                <div><span>{{ $t('cves.availabilityImpactMsg') }}: {{cvss['availability-impact']['#content']}}</span></div>
               </div>
             </div>
             <div class="references">
@@ -73,6 +73,7 @@
 <script>
 // import $ from 'jquery'
 import axios from 'axios'
+import config from '../../config'
 // Require needed datatables modules
 
 export default {
@@ -91,7 +92,7 @@ export default {
   },
   methods: {
     getCve(name) {
-      axios.get('http://112.137.129.225:8088/infos/cve/' + name)
+      axios.get(config.apiUrl + '/infos/cve/' + name)
       .then(response => {
         this.detail = response.data.get_info_response.info
         this.refer = response.data.get_info_response.info[0].cve.raw_data.entry.references

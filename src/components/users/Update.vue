@@ -78,59 +78,35 @@
 </template>
 <script>
   import axios from 'axios'
+  import config from '../../config'
   export default {
     name: 'Tables',
     props: ['userData', 'oldName'],
     data() {
       return {
-        // oldName: this.userData.name,
-        // comment: '',
         password: '',
-        // // comfirm_password: '',
-        // role: '',
-        // host_allow: '',
         hosts: [],
-        // iface_allow: '',
         ifaces: [],
         roles: [],
-        // message: '',
         messageUpdate: ''
       }
     },
     created() {
       axios({
         method: 'get',
-        url: 'http://112.137.129.225:8088/roles'
+        url: this.apiUrl + '/roles'
       })
       .then(response => {
         this.roles = response.data.get_roles_response.role
-        // if (this.message !== 'User already exists') {
-        //   this.$router.push('/users')
-        // }
       })
     },
-    // // computed: {
-    // //   oldName() {
-    // //     return JSON.parse(JSON.stringify(this.userData.name))
-    // //   }
-    // // },
-    // // watch: { // Here we define the watchers
-    // //   userData: function(newVal, oldVal) { // We add a watcher to the "items" variable, this will be called when items changes
-    // //     this.oldName = oldVal
-    // //   }
-    // },
-    // watch: {
-    //   oldValue: function(newVal, oldVal) {
-    //     console.log(oldVal)
-    //   }
-    // },
     methods: {
       updateUser(id) {
         this.$validator.validateAll().then(res => {
           if (res) {
             axios({
               method: 'put',
-              url: 'http://112.137.129.225:8088/users',
+              url: config.apiUrl + '/users',
               data: {
                 name: this.oldName,
                 new_name: this.userData.name,

@@ -76,6 +76,7 @@
 <script>
   // import $ from 'jquery'
   import axios from 'axios'
+  import config from '../../config'
   export default {
     name: 'Tables',
     data() {
@@ -97,7 +98,7 @@
     created() {
       axios({
         method: 'get',
-        url: 'http://112.137.129.225:8088/roles'
+        url: config.apiUrl + '/roles'
       })
       .then(response => {
         this.roles = response.data.get_roles_response.role
@@ -118,7 +119,7 @@
           if (res) {
             axios({
               method: 'post',
-              url: 'http://112.137.129.225:8088/users',
+              url: this.apiUrl + '/users',
               data: {
                 name: this.name,
                 comment: this.comment,

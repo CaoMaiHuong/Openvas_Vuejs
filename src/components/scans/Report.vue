@@ -74,6 +74,7 @@
 <script>
 // import $ from 'jquery'
 import axios from 'axios'
+import config from '../../config'
 // Require needed datatables modules
 require('datatables.net')
 require('datatables.net-bs')
@@ -94,7 +95,7 @@ export default {
   },
   methods: {
     getReport(id) {
-      axios.get('http://112.137.129.225:8088/results?filter=report_id=' + id)
+      axios.get(config.apiUrl + '/results?filter=report_id=' + id)
       .then(response => {
         // let $this = this
         this.result = response.data.get_results_response.result
@@ -107,14 +108,6 @@ export default {
     closeModal() {
       this.isModalVisible = false
     },
-    // deleteTarget: function(id) {
-    //   if (confirm('Do you really want to delete it?')) {
-    //     axios.delete('http://localhost:8081/user/' + id)
-    //     .then(response => {
-    //       location.reload()
-    //     })
-    //   }
-    // },
     makePagination(data) {
       let pagination = {
         page: data.page,

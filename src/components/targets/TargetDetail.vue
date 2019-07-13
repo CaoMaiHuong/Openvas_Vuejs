@@ -44,6 +44,7 @@
 <script>
 // import $ from 'jquery'
 import axios from 'axios'
+import config from '../../config'
 // Require needed datatables modules
 
 export default {
@@ -59,7 +60,7 @@ export default {
   },
   methods: {
     getTarget(id) {
-      axios.get('http://112.137.129.225:8088/target/' + id)
+      axios.get(config.apiUrl + '/target/' + id)
       .then(response => {
         this.detail = response.data.get_targets_response.target
       })

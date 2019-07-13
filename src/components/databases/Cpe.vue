@@ -83,9 +83,8 @@
 </template>
 
 <script>
-// import $ from 'jquery'
 import axios from 'axios'
-// Require needed datatables modules
+import config from '../../config'
 require('datatables.net')
 require('datatables.net-bs')
 
@@ -108,7 +107,7 @@ export default {
     getCpes() {
       axios({
         method: 'get',
-        url: 'http://112.137.129.225:8088/infos?type_info=cpe'
+        url: config.apiUrl + '/infos?type_info=cpe'
       })
       .then(response => {
         // let $this = this

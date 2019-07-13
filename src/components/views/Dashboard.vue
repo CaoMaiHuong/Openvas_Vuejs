@@ -81,6 +81,7 @@ import Alert from '../widgets/Alert'
 import InfoBox from '../widgets/InfoBox'
 import ProcessInfoBox from '../widgets/ProcessInfoBox'
 import axios from 'axios'
+import config from '../../config'
 export default {
   name: 'Dashboard',
   components: {
@@ -109,7 +110,7 @@ export default {
   },
   beforeCreate() {
     axios
-    .get('http://112.137.129.225:8088/infos?type_info=cpe')
+    .get(config.apiUrl + '/infos?type_info=cpe')
     .then(response => {
       this.cpetotal = response.data.get_info_response.info_count['#content']
       // return this.dashboards
@@ -117,7 +118,7 @@ export default {
   },
   beforeMount() {
     axios
-    .get('http://112.137.129.225:8088/infos?type_info=nvt')
+    .get(config.apiUrl + '/infos?type_info=nvt')
     .then(response => {
       this.nvttotal = response.data.get_info_response.info_count['#content']
       // this.$nextTick(() => {
@@ -161,7 +162,7 @@ export default {
   },
   mounted () {
     axios
-    .get('http://112.137.129.225:8088/infos?type_info=cve')
+    .get(config.apiUrl + '/infos?type_info=cve')
     .then(response => {
       this.cvetotal = response.data.get_info_response.info_count['#content']
       // this.$nextTick(() => {

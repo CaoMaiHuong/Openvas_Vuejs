@@ -82,6 +82,7 @@
 import axios from 'axios'
 import addTask from './Create.vue'
 import updatetask from './Update.vue'
+import config from '../../config'
 // Require needed datatables modules
 require('datatables.net')
 require('datatables.net-bs')
@@ -106,7 +107,7 @@ export default {
   },
   methods: {
     getTask() {
-      axios.get('http://112.137.129.225:8088/tasks')
+      axios.get(config.apiUrl + '/tasks')
       .then(response => {
         // let $this = this
         this.tasks = response.data.get_tasks_response.task
@@ -125,7 +126,7 @@ export default {
     },
     deleteTask(id, index) {
       if (confirm('Bạn có chắc chắn muốn xóa?')) {
-        axios.delete('http://112.137.129.225:8088/tasks/' + id + '/false')
+        axios.delete(config.apiUrl + '/tasks/' + id + '/false')
         .then(response => {
           this.tasks.splice(index, 1)
         })

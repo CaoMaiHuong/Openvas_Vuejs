@@ -76,7 +76,7 @@
 </template>
 
 <script>
-// import $ from 'jquery'
+import config from '../../config'
 import axios from 'axios'
 // Require needed datatables modules
 
@@ -109,7 +109,7 @@ export default {
   },
   methods: {
     getNvt(id) {
-      axios.get('http://112.137.129.225:8088/infos/nvt/' + id)
+      axios.get(config.apiUrl + '/infos/nvt/' + id)
       .then(response => {
         this.detail = response.data.get_info_response.info
         this.tags = response.data.get_info_response.info[0].nvt.tags.split('|')

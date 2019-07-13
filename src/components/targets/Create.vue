@@ -70,6 +70,7 @@
 </template>
 <script>
   import axios from 'axios'
+  import config from '../../config'
   // import $ from 'jquery'
   export default {
     name: 'Tables',
@@ -101,7 +102,7 @@
           if (res) {
             axios({
               method: 'post',
-              url: 'http://112.137.129.225:8088/targets',
+              url: config.apiUrl + '/targets',
               data: {
                 name: this.name,
                 comment: this.comment,

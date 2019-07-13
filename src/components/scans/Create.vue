@@ -109,6 +109,7 @@
 </template>
 <script>
   import axios from 'axios'
+  import config from '../../config'
 
   export default {
     name: 'CreateTask',
@@ -144,13 +145,13 @@
     },
     methods: {
       getTarget() {
-        axios.get('http://112.137.129.225:8088/targets')
+        axios.get(config.apiUrl + '/targets')
         .then(response => {
           this.targets = response.data.get_targets_response.target
         })
       },
       getSchedule() {
-        axios.get('http://112.137.129.225:8088/schedules')
+        axios.get(config.apiUrl + '/schedules')
         .then(response => {
           this.schedules = response.data.get_schedules_response.schedule
         })
@@ -172,7 +173,7 @@
           if (res) {
             axios({
               method: 'post',
-              url: 'http://112.137.129.225:8088/tasks',
+              url: config.apiUrl + '/tasks',
               data: {
                 name: this.name,
                 comment: this.comment,

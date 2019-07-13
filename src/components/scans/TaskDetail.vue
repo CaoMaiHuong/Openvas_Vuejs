@@ -65,6 +65,7 @@
 <script>
 // import $ from 'jquery'
 import axios from 'axios'
+import config from '../../config'
 // Require needed datatables modules
 
 export default {
@@ -80,7 +81,7 @@ export default {
   },
   methods: {
     getTarget(id) {
-      axios.get('http://112.137.129.225:8088/tasks/' + id)
+      axios.get(config.apiUrl + '/tasks/' + id)
       .then(response => {
         this.detail = response.data.get_tasks_response.task
       })
@@ -90,14 +91,6 @@ export default {
 </script>
 
 <style>
-/* Using the bootstrap style, but overriding the font to not draw in
-   the Glyphicons Halflings font as an additional requirement for sorting icons.
-
-   An alternative to the solution active below is to use the jquery style
-   which uses images, but the color on the images does not match adminlte.
-
-@import url('/static/js/plugins/datatables/jquery.dataTables.min.css');
-*/
 
 @import url('/static/js/plugins/datatables/dataTables.bootstrap.css');
 

@@ -108,7 +108,7 @@
 </template>
 <script>
   import axios from 'axios'
-
+  import config from '../../config'
   export default {
     name: 'UpdateTask',
     props: ['taskData'],
@@ -118,35 +118,8 @@
         schedules: [],
         // configs: [],
         messageUpdate: ''
-        // // name: '',
-        // comment: '',
-        // // target: '',
-        // alert: '',
-        // schedule: '',
-        // in_assets: 'yes',
-        // assets_apply_overrides: 'yes',
-        // assets_min_qod: '70',
-        // alterable: '0',
-        // auto_delete: 'no',
-        // auto_delete_data: '5',
-        // scanner: 1,
-        // config: 1,
-        // network: '',
-        // hosts_ordering: 'sequential',
-        // max_checks: '4',
-        // max_hosts: '20'
       }
     },
-    // computed: {
-    //   name: {
-    //     get() {
-    //       return this.task_name
-    //     },
-    //     set(newValue) {
-    //       this.$emit('update:task_name', newValue)
-    //     }
-    //   }
-    // },
     created() {
       this.getTarget()
     },
@@ -158,43 +131,23 @@
     // },
     methods: {
       getTarget() {
-        axios.get('http://112.137.129.225:8088/targets')
+        axios.get(config.apiUrl + '/targets')
         .then(response => {
           this.targets = response.data.get_targets_response.target
         })
       },
       getSchedule() {
-        axios.get('http://112.137.129.225:8088/schedules')
+        axios.get(config.apiUrl + '/schedules')
         .then(response => {
           this.schedules = response.data.get_schedules_response.schedule
         })
       },
-      // beforeCreated() {
-      //   this.name = this.taskData.name
-      // },
-      // computed: {
-      //   namee() {
-      //     return 'fgdfgfdg'
-      //   }
-      // },
-      // getScanner() {
-      //   axios.get('http://localhost:8081/scanners')
-      //   .then(response => {
-      //     this.scanners = response.data
-      //   })
-      // },
-      // getConfig() {
-      //   axios.get('http://localhost:8081/configs')
-      //   .then(response => {
-      //     this.configs = response.data
-      //   })
-      // },
       updateTask() {
         this.$validator.validateAll().then(res => {
           if (res) {
             axios({
               method: 'put',
-              url: 'http://112.137.129.225:8088/tasks',
+              url: config.apiUrl + '/tasks',
               data: {
                 task_id: this.taskData['-id'],
                 name: this.taskData.name,

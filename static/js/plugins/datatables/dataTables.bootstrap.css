@@ -112,7 +112,7 @@ table.dataTable thead .sorting_desc_disabled:after {
 }
 
 table.dataTable thead > tr > th {
-	padding-right: 30px;
+	padding-right: 8px;
 }
 
 table.dataTable th:active {
@@ -177,6 +177,8 @@ table.table-bordered tbody th,
 table.table-bordered tbody td {
 	border-left-width: 0;
 	border-bottom-width: 0;
+	vertical-align: middle;
+	text-align: center;
 }
 table.table-bordered tfoot th,
 table.table-bordered tfoot td {

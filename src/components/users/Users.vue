@@ -88,6 +88,7 @@
 import modal from './Create.vue'
 import updatemodal from './Update.vue'
 import axios from 'axios'
+import config from '../../config'
 // Require needed datatables modules
 require('datatables.net')
 require('datatables.net-bs')
@@ -113,7 +114,7 @@ export default {
   },
   methods: {
     getUser() {
-      axios.get('http://112.137.129.225:8088/users')
+      axios.get(config.apiUrl + '/users')
       .then(response => {
         this.users = response.data.get_users_response.user
         this.length = response.data.get_users_response.user.length
@@ -133,7 +134,7 @@ export default {
     },
     deleteUser: function(id, index) {
       if (confirm('Bạn có chắc chắn muốn xóa?')) {
-        axios.delete('http://112.137.129.225:8088/users', {data: {user_id: id}})
+        axios.delete(config.apiUrl + '/users', {data: {user_id: id}})
         .then(response => {
           this.users.splice(index, 1)
         })
@@ -152,11 +153,6 @@ export default {
       this.getUser(page)
     }
   }
-  // mounted() {
-  //   this.$nextTick(() => {
-  //     $('#example1').DataTable()
-  //   })
-  // }
 }
 </script>
 

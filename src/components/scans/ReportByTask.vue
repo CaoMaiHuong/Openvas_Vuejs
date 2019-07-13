@@ -37,7 +37,8 @@
                         <!-- <td class="sorting_1">{{user.ID}}</td> -->
                         <td><router-link :to="{ name: 'Báo cáo', params: {id: report['-id'], date:report.report.timestamp}}">{{report.report.timestamp}}</router-link></td>
                         <td>{{report.report.scan_run_status}}</td>
-                        <td><router-link :to="{ name: 'Chi tiết tác vụ', params: {id: report.task['-id']}}">{{report.task.name}}</router-link></td>                        <td v-if="report.report.severity.filtered < 0">Error</td>
+                        <td><router-link :to="{ name: 'Chi tiết tác vụ', params: {id: report.task['-id']}}">{{report.task.name}}</router-link></td>                        
+                        <td v-if="report.report.severity.filtered < 0">Error</td>
                         <td v-else>{{report.report.severity.filtered}}</td>
                         <td>{{report.report.result_count.hole.filtered}}</td>
                         <td>{{report.report.result_count.warning.filtered}}</td>
@@ -75,6 +76,7 @@
 <script>
 // import $ from 'jquery'
 import axios from 'axios'
+import config from '../../config'
 // Require needed datatables modules
 require('datatables.net')
 require('datatables.net-bs')
@@ -95,7 +97,7 @@ export default {
   },
   methods: {
     getReport(id) {
-      axios.get('http://112.137.129.225:8088/reports?filter=task_id=' + id)
+      axios.get(config.apiUrl + '/reports?filter=task_id=' + id)
       .then(response => {
         // let $this = this
         this.reports = response.data.get_reports_response.report
@@ -104,7 +106,7 @@ export default {
     },
     deleteReport(id, index) {
       if (confirm('Bạn có chắc chắn muốn xóa?')) {
-        axios.delete('http://112.137.129.225:8088/reports/' + id)
+        axios.delete(config.apiUrl + '/reports/' + id)
         .then(response => {
           this.tasks.splice(index, 1)
         })
@@ -116,14 +118,6 @@ export default {
     closeModal() {
       this.isModalVisible = false
     },
-    // deleteTarget: function(id) {
-    //   if (confirm('Do you really want to delete it?')) {
-    //     axios.delete('http://localhost:8081/user/' + id)
-    //     .then(response => {
-    //       location.reload()
-    //     })
-    //   }
-    // },
     makePagination(data) {
       let pagination = {
         page: data.page,
@@ -134,8 +128,6 @@ export default {
       this.pagination = pagination
     },
     fetchPaginate(page) {
-    //   let id = this.id
-    //   let $this = this
       this.getReport(page, this.id)
     },
     openModal () {
@@ -146,15 +138,6 @@ export default {
 </script>
 
 <style>
-/* Using the bootstrap style, but overriding the font to not draw in
-   the Glyphicons Halflings font as an additional requirement for sorting icons.
-
-   An alternative to the solution active below is to use the jquery style
-   which uses images, but the color on the images does not match adminlte.
-
-@import url('/static/js/plugins/datatables/jquery.dataTables.min.css');
-*/
-
 @import url('/static/js/plugins/datatables/dataTables.bootstrap.css');
 
 table.dataTable thead .sorting:after,
